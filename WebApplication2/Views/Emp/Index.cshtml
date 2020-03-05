@@ -62,8 +62,11 @@
                                 <h4 class="modal-title">Delete Employee Id: @Html.DisplayFor(modelItem => item.EmpId)</h4>
                             </div>
                             <div class="modal-body">
+
                                 <h3>Do You Want to Delete <b>@Html.DisplayFor(modelItem => item.EmpName)</b> Record</h3>
+                                
                                 @Html.ActionLink("Delete", "Delete", new { id = item.EmpId }, new { @class = "btn btn-danger" })
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
 
 

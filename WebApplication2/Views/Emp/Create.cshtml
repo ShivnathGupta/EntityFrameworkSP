@@ -20,15 +20,15 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EmpName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EmpName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.EmpName, new { htmlAttributes = new { @class = "form-control", required = "required" ,onkeyup= "validEmpName()",name="EmpName" } })
                 <span class="text-danger" id="ErrorName"></span>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EmpDepartment, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EmpDepartment, htmlAttributes: new { @class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EmpDepartment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.EmpDepartment, new { htmlAttributes = new { @class = "form-control", required = "required" , onkeyup = "validEmpDepartment()" } })
                 <span class="text-danger" id="ErrorDepartment"></span>
             </div>
         </div>
@@ -36,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EmpPhone, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EmpPhone, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.EmpPhone, new { htmlAttributes = new { @class = "form-control", required = "required", onkeyup = "validEmpPhone()" } })
                 <span class="text-danger" id="ErrorPhone"></span>
             </div>
         </div>
@@ -44,7 +44,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EmpAddress, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EmpAddress, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.EmpAddress, new { htmlAttributes = new { @class = "form-control", required = "required", onkeyup = "validEmpAddress()" } })
                 <span class="text-danger" id="ErrorAddress"></span>
             </div>
         </div>
@@ -52,14 +52,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EmpEmailId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EmpEmailId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.EmpEmailId, new { htmlAttributes = new { @class = "form-control", required = "required", onkeyup = "ValidateEmail()" } })
                 <span class="text-danger" id="ErrorEmailId"></span>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" id="cc" class="btn btn-default" />
+                <input type="submit" value="Create" id="create" class="btn btn-default" onclick="ValidateEmail()" />
             </div>
         </div>
     </div>
@@ -71,35 +71,80 @@
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <script type="text/javascript">
-
     $(document).ready(function () {
-        //alert("hello");
-        $("#cc").click(function () {
-            //alert("hello");
-           validateform();
-        })
-
+        $("#create").click(function () {
+            ValidateEmail()
+            validEmpName();
+            validEmpDepartment();
+            validEmpPhone();
+            validEmpAddress();
+           
+        });
+        
     });
-    function validateform() {
+    function validEmpName() {
+        var empName = document.getElementById("EmpName").value;
+        var empRGEX = /^[A-Za-z]+$/;
+        var empResult = empRGEX.test(empName);
         if ($("#EmpName").val() == "") {
-            $("#ErrorName").text ("Please Enter Employee name");
+            $("#ErrorName").text("Please Enter Employee name");
             return false;
+        } else if (empResult == false) {
+            $("#ErrorName").text("Letters only");
         }
+        else if ($("#EmpName").val() != "") {
+            $("#ErrorName").text("");
+
+        }
+    }
+    function validEmpDepartment() {
+        var empDept = document.getElementById("EmpDepartment").value;
+        var empRGEX = /^[A-Za-z]+$/;
+        var empDeptResult = empRGEX.test(empDept);
         if ($("#EmpDepartment").val() == "") {
             $("#ErrorDepartment").text("Please Enter Department name");
             return false;
         }
+        else if (empDeptResult == false) {
+            $("#ErrorDepartment").text("Letters only");
+        }
+        else {
+            $("#ErrorDepartment").text("");
+
+        }
+    }
+    function validEmpPhone() {
+        var phoneNumber = document.getElementById("EmpPhone").value;
+        var phoneRGEX = /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
+        var phoneResult = phoneRGEX.test(phoneNumber);
         if ($("#EmpPhone").val() == "") {
             $("#ErrorPhone").text("Please Enter Phone Number name");
             return false;
+        } else if (phoneResult == false) {
+            $("#ErrorPhone").text("Enter 10 Digit and and Correct Format");
         }
+        else {
+            $("#ErrorPhone").text("");
+
+        }
+    }
+    function validEmpAddress() {
         if ($("#EmpAddress").val() == "") {
-            $("#ErrorAddress").text("Please Enter Address");
+            $("#ErrorAddress").text("please enter address");
             return false;
         }
-        if ($("#EmpEmailId").val() == "") {
-            $("#ErrorEmailId").text("Please Enter EmailId");
-            return false;
+        else {
+            $("#ErrorAddress").text("");
+
+        }
+    }
+    function ValidateEmail() {
+        var email = document.getElementById("EmpEmailId").value;
+        var lblError = document.getElementById("ErrorEmailId");
+        lblError.innerHTML = "";
+        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if (!expr.test(email)) {
+            lblError.innerHTML = "Invalid email address.";
         }
     }
 </script>

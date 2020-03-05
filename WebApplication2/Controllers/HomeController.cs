@@ -8,6 +8,14 @@ namespace WebApplication2.Controllers
 {
     public class HomeController : Controller
     {
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (Session["User"] != null)
+                base.OnActionExecuting(filterContext);
+            else
+                //RedirectToAction("Login", "Login");
+                filterContext.Result = new RedirectResult("~/");
+        }
         public ActionResult Index()
         {
             return View();
