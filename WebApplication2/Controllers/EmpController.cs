@@ -24,12 +24,9 @@ namespace WebApplication2.Controllers
 
         public ActionResult Index()
         {
-            
-                return View
-                (obj.FN_Disp_Rec().ToList());
-            
 
-
+            return View
+            (obj.FN_Disp_Rec().ToList());
          
         }
 
