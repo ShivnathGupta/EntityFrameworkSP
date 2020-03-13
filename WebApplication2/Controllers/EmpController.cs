@@ -27,6 +27,8 @@ namespace WebApplication2.Controllers
 
             return View
             (obj.FN_Disp_Rec().ToList());
+            
+
          
         }
 
